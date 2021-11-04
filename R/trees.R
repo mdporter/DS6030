@@ -383,3 +383,57 @@ legend("topright",c("bagged trees","random forest","tree with all data"),
        col=c("red","black","blue"),lwd=2)
 
 
+################################################################
+#-- Optimized Tree Splitting
+################################################################
+library(dplyr)
+
+split_info_optimized <- function(x, y){
+  # Note: ignores ties, assumes x,y are ordered according to x
+  # - accumulate ties and ordering would be done once at beginning of tree 
+  #   fitting
+  # - Very easy to implement in C++ using Rcpp (https://adv-r.hadley.nz/rcpp.html)
+  #   to gain efficiency
+
+  #: Pre-calculate
+  n = length(y)          # number of operations
+
+  #: Calculate cumulative sums
+  cy = cumsum(y)                      
+  cn = 1:n
+  
+  #: calculate loss 
+  b = tibble(cy, cn) %>% 
+    mutate(
+      loss.L = -cy^2 / cn,
+      loss.R = -(cy[n] - cy)^2 / (n - cn),
+      loss = loss.L + loss.R,
+      #: useful output (optional)
+      split.pt = (dplyr::lead(x) + x)/2,    # midpoint
+      n.L = cn,                             # number in left side
+      n.R = n-cn,                           # number in right side
+      est.L = cy/cn,                        # mean of left side
+      est.R = (cy[n] - cy) / (n-cn)         # mean of right side
+      ) %>% 
+    select(split.pt, loss, n.L, n.R, est.L, est.R, loss.L, loss.R)
+  return(b)
+}
+
+
+#: Test speed on 1M observations
+n = 1E6 
+x = sort(runif(n))
+y = c(rnorm(n/2, mean=0), rnorm(n/2, mean=2))
+split_info_optimized(x[1:10],y[1:10])
+
+library(microbenchmark)
+microbenchmark(
+  split_info_optimized(x,y)
+)
+# I'm getting an average of 34 milliseconds on 1M points (1M searched split points!)
+
+
+
+
+
+
