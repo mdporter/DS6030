@@ -360,11 +360,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -514,7 +518,7 @@ $(document).ready(function () {
 <td align="left">1</td>
 <td align="left">Aug 23</td>
 <td align="left">Tue</td>
-<td align="left">Introduction</td>
+<td align="left"><a href="lectures/intro.pdf">Introduction</a></td>
 <td align="left">Pre-Req material; R and Rstudio <br> <a href="https://mdsr-book.github.io/mdsr2e/">Modern Data Science with
 R</a> sections: 2,3,4,6,7,9</td>
 <td align="left">HW 0 assigned; Get textbook(s); update software; review
@@ -525,7 +529,9 @@ pre-req material</td>
 <td align="left">Aug 25</td>
 <td align="left">Thu</td>
 <td align="left">R and Tidyverse</td>
-<td align="left"></td>
+<td align="left"><a href="https://r4ds.had.co.nz/">R Tidyverse</a> <br>
+3-8, 10-11, 12.3, 12.5, 15, 17-19, 20.1-20.4, 21.1-21.5, 23.4,
+27-29</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
