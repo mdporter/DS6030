@@ -234,7 +234,6 @@ window.buildTabsets = function(tocID) {
 
 
 
-
 <style type="text/css">
 
 
@@ -301,9 +300,6 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
-details > summary > p:only-child {
-  display: inline;
-}
 pre code {
   padding: 0;
 }
@@ -360,15 +356,11 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark the anchor link active (and if it's in a dropdown, also mark that active)
-  var dropdown = menuAnchor.closest('li.dropdown');
-  if (window.bootstrap) { // Bootstrap 4+
-    menuAnchor.addClass('active');
-    dropdown.find('> .dropdown-toggle').addClass('active');
-  } else { // Bootstrap 3
-    menuAnchor.parent().addClass('active');
-    dropdown.addClass('active');
-  }
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -459,7 +451,7 @@ $(document).ready(function () {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -527,10 +519,11 @@ site</a></strong></p>
 <p>Due: Wed Sep 21 11:45am</p>
 </blockquote>
 </div>
-<div id="homework-4" class="section level3">
-<h3>Homework #4:</h3>
+<div id="homework-4-rmd" class="section level3">
+<h3><a href="homework/hw4.html">Homework #4</a> <a href="https://raw.githubusercontent.com/mdporter/DS6030/main/homework/hw4.Rmd">(Rmd)</a></h3>
 <blockquote>
-<p>Due: Wed Sep 28 11:45am</p>
+<p>Due: Wed Sep 28 11:45am <br> Note: This is an independent assignment.
+All work done on your own.</p>
 </blockquote>
 </div>
 <div id="homework-5" class="section level3">
@@ -542,7 +535,8 @@ site</a></strong></p>
 <div id="homework-6" class="section level3">
 <h3>Homework #6:</h3>
 <blockquote>
-<p>Due: Wed Oct 19 11:45am</p>
+<p>Due: Wed Oct 19 11:45am <br> Note: This is an independent assignment.
+All work done on your own.</p>
 </blockquote>
 </div>
 <div id="homework-7" class="section level3">
@@ -554,7 +548,8 @@ site</a></strong></p>
 <div id="homework-8" class="section level3">
 <h3>Homework #8:</h3>
 <blockquote>
-<p>Due: Wed Nov 02 11:45am</p>
+<p>Due: Wed Nov 02 11:45am <br> Note: This is an independent assignment.
+All work done on your own.</p>
 </blockquote>
 </div>
 <div id="homework-9" class="section level3">
