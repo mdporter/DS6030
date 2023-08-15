@@ -38,7 +38,7 @@ The teaching staff (TA and myself) are here to help! Don't wait too long before 
 
 ## b. Install/Update the following packages we will meet during this course:
 
-- Dynamic report generation: `knitr` 
+- Dynamic report generation: `rmarkdown`, `knitr` 
 - Utility: `remotes`
 - Working with Data: `tidyverse`
 - Data: `ISLR`, `moderndive`, `MASS`
@@ -62,7 +62,7 @@ This document will not compile until you load the `ds6030hw-html` quarto extensi
 ```
 quarto add mdporter/quarto-ds6030-hw
 ```
-which should create an `_extensions` directory. This contains the formatting for the compiled html document. 
+which should create an `_extensions` directory (if connected to the internet). This contains the formatting for the compiled html document. 
 
 # Tidyverse Resources
 
@@ -86,15 +86,18 @@ Read the following sections in [R for Data Science 2e](https://r4ds.hadley.nz/):
 
 # Save/Bookmark the following cheatsheets and resources
 
-[Posit Cheatsheets](https://posit.co/resources/cheatsheets/
+[Posit Cheatsheets](https://posit.co/resources/cheatsheets/)
 
 ## **RStudio and Quarto**
 
 - [RStudio IDE Cheatsheet](https://rstudio.github.io/cheatsheets/html/rstudio-ide.html)
 
+- [Quarto Website](https://quarto.org/docs/authoring/markdown-basics.html)
+
 - [Quarto Cheatsheet](https://rstudio.github.io/cheatsheets/html/quarto.html)
 
 - [Latex Cheatsheet](https://wch.github.io/latexsheet/latexsheet-0.png)
+
 
 
 ## **R**
