@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Your Name Here">
+<meta name="dcterms.date" content="2023-08-15">
+
+<title>Homework #0: Hello DS-6030</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="hw0_files/libs/clipboard/clipboard.min.js"></script>
+<script src="hw0_files/libs/quarto-html/quarto.js"></script>
+<script src="hw0_files/libs/quarto-html/popper.min.js"></script>
+<script src="hw0_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="hw0_files/libs/quarto-html/anchor.min.js"></script>
+<link href="hw0_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="hw0_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="hw0_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="hw0_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="hw0_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#required-r-packages-and-directories" id="toc-required-r-packages-and-directories" class="nav-link active" data-scroll-target="#required-r-packages-and-directories">Required R packages and Directories</a></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting Help</a></li>
+  <li><a href="#r-resources" id="toc-r-resources" class="nav-link" data-scroll-target="#r-resources">R Resources</a>
+  <ul class="collapse">
+  <li><a href="#a.-update-r-rstudio-and-quarto" id="toc-a.-update-r-rstudio-and-quarto" class="nav-link" data-scroll-target="#a.-update-r-rstudio-and-quarto">a. Update R, RStudio, and Quarto</a></li>
+  <li><a href="#b.-installupdate-the-following-packages-we-will-meet-during-this-course" id="toc-b.-installupdate-the-following-packages-we-will-meet-during-this-course" class="nav-link" data-scroll-target="#b.-installupdate-the-following-packages-we-will-meet-during-this-course">b. Install/Update the following packages we will meet during this course:</a></li>
+  <li><a href="#c.-install-the-course-quarto-extension" id="toc-c.-install-the-course-quarto-extension" class="nav-link" data-scroll-target="#c.-install-the-course-quarto-extension">c.&nbsp;Install the course quarto extension</a></li>
+  </ul></li>
+  <li><a href="#tidyverse-resources" id="toc-tidyverse-resources" class="nav-link" data-scroll-target="#tidyverse-resources">Tidyverse Resources</a></li>
+  <li><a href="#savebookmark-the-following-cheatsheets-and-resources" id="toc-savebookmark-the-following-cheatsheets-and-resources" class="nav-link" data-scroll-target="#savebookmark-the-following-cheatsheets-and-resources">Save/Bookmark the following cheatsheets and resources</a>
+  <ul class="collapse">
+  <li><a href="#rstudio-and-quarto" id="toc-rstudio-and-quarto" class="nav-link" data-scroll-target="#rstudio-and-quarto"><strong>RStudio and Quarto</strong></a></li>
+  <li><a href="#r" id="toc-r" class="nav-link" data-scroll-target="#r"><strong>R</strong></a></li>
+  <li><a href="#python-with-rstudiormarkdown-optional" id="toc-python-with-rstudiormarkdown-optional" class="nav-link" data-scroll-target="#python-with-rstudiormarkdown-optional"><strong>Python with RStudio/RMarkdown</strong> (Optional)</a></li>
+  </ul></li>
+  <li><a href="#problem-1-math-notation" id="toc-problem-1-math-notation" class="nav-link" data-scroll-target="#problem-1-math-notation">Problem 1: Math Notation</a>
+  <ul class="collapse">
+  <li><a href="#a.-what-are-the-equations-for-the-least-squares-coefficients-in-linear-regression-in-matrix-notation-use-x-for-the-modeldesignpredictor-matrix-and-y-the-vector-of-outcomes." id="toc-a.-what-are-the-equations-for-the-least-squares-coefficients-in-linear-regression-in-matrix-notation-use-x-for-the-modeldesignpredictor-matrix-and-y-the-vector-of-outcomes." class="nav-link" data-scroll-target="#a.-what-are-the-equations-for-the-least-squares-coefficients-in-linear-regression-in-matrix-notation-use-x-for-the-modeldesignpredictor-matrix-and-y-the-vector-of-outcomes.">a. What are the equations for the least squares coefficients in linear regression (in matrix notation)? Use <span class="math inline">\(X\)</span> for the model/design/predictor matrix, and <span class="math inline">\(Y\)</span> the vector of outcomes.</a></li>
+  <li><a href="#b.-let-x_1-x_2-ldots-x_n-be-a-sample-of-length-of-time-that-a-customer-is-on-the-phone-with-a-call-center-help-line.-we-feel-comfortable-modeling-the-data-as-coming-from-an-exponential-distribution.-what-is-the-mle-maximum-likelihood-estimate-of-the-parameter-show-your-steps." id="toc-b.-let-x_1-x_2-ldots-x_n-be-a-sample-of-length-of-time-that-a-customer-is-on-the-phone-with-a-call-center-help-line.-we-feel-comfortable-modeling-the-data-as-coming-from-an-exponential-distribution.-what-is-the-mle-maximum-likelihood-estimate-of-the-parameter-show-your-steps." class="nav-link" data-scroll-target="#b.-let-x_1-x_2-ldots-x_n-be-a-sample-of-length-of-time-that-a-customer-is-on-the-phone-with-a-call-center-help-line.-we-feel-comfortable-modeling-the-data-as-coming-from-an-exponential-distribution.-what-is-the-mle-maximum-likelihood-estimate-of-the-parameter-show-your-steps.">b. Let <span class="math inline">\(x_1, x_2, \ldots, x_n\)</span> be a sample of length of time that a customer is on the phone with a call center help line. We feel comfortable modeling the data as coming from an <em>exponential distribution</em>. What is the MLE (Maximum Likelihood Estimate) of the parameter? Show your steps.</a></li>
+  </ul></li>
+  <li><a href="#problem-2-coding-practice" id="toc-problem-2-coding-practice" class="nav-link" data-scroll-target="#problem-2-coding-practice">Problem 2: Coding Practice</a>
+  <ul class="collapse">
+  <li><a href="#a.-simulate-100-observations-from-the-following-model" id="toc-a.-simulate-100-observations-from-the-following-model" class="nav-link" data-scroll-target="#a.-simulate-100-observations-from-the-following-model">a. Simulate 100 observations from the following model:</a></li>
+  <li><a href="#b.-make-a-scatter-plot-of-the-data.-put-x-on-the-x-axis-and-y-on-the-y-axis.-color-the-points-according-to-z." id="toc-b.-make-a-scatter-plot-of-the-data.-put-x-on-the-x-axis-and-y-on-the-y-axis.-color-the-points-according-to-z." class="nav-link" data-scroll-target="#b.-make-a-scatter-plot-of-the-data.-put-x-on-the-x-axis-and-y-on-the-y-axis.-color-the-points-according-to-z.">b. Make a scatter plot of the data. Put <span class="math inline">\(X\)</span> on the x-axis and <span class="math inline">\(Y\)</span> on the y-axis. Color the points according to <span class="math inline">\(Z\)</span>.</a></li>
+  <li><a href="#c.-write-a-function-that-adds-two-numbers-together-and-squares-the-result." id="toc-c.-write-a-function-that-adds-two-numbers-together-and-squares-the-result." class="nav-link" data-scroll-target="#c.-write-a-function-that-adds-two-numbers-together-and-squares-the-result.">c.&nbsp;Write a function that adds two numbers together and squares the result.</a></li>
+  <li><a href="#d.-write-a-loop-to-calculate-the-mean-of-every-column-in-mtcars." id="toc-d.-write-a-loop-to-calculate-the-mean-of-every-column-in-mtcars." class="nav-link" data-scroll-target="#d.-write-a-loop-to-calculate-the-mean-of-every-column-in-mtcars.">d.&nbsp;Write a loop to calculate the mean of every column in <code>mtcars</code>.</a></li>
+  </ul></li>
+  <li><a href="#problem-3-statistics" id="toc-problem-3-statistics" class="nav-link" data-scroll-target="#problem-3-statistics">Problem 3: Statistics</a>
+  <ul class="collapse">
+  <li><a href="#a.-find-two-quantiles-that-capture-95-of-the-following-data" id="toc-a.-find-two-quantiles-that-capture-95-of-the-following-data" class="nav-link" data-scroll-target="#a.-find-two-quantiles-that-capture-95-of-the-following-data">a. Find two quantiles that capture 95% of the following data:</a></li>
+  <li><a href="#b.-confidence-interval" id="toc-b.-confidence-interval" class="nav-link" data-scroll-target="#b.-confidence-interval">b. Confidence Interval</a></li>
+  <li><a href="#c.-linear-models" id="toc-c.-linear-models" class="nav-link" data-scroll-target="#c.-linear-models">c.&nbsp;Linear Models</a></li>
+  <li><a href="#d.-hypothesis-testing" id="toc-d.-hypothesis-testing" class="nav-link" data-scroll-target="#d.-hypothesis-testing">d.&nbsp;Hypothesis Testing</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+<p style="color:#E57200;text-align:center;font-weight:bold;background-color:#232D4B">
+DS 6030 | Fall 2023 | University of Virginia
+</p>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Homework #0: Hello DS-6030</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p><strong>Your Name Here</strong> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 15, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="required-r-packages-and-directories" class="level1">
+<h1>Required R packages and Directories</h1>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data.dir <span class="ot">=</span> <span class="st">'https://mdporter.github.io/SYS6030/data/'</span> <span class="co"># data directory</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># functions for data manipulation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="getting-help" class="level1">
+<h1>Getting Help</h1>
+<p>The purpose of this (ungraded) homework is to help get you prepared for the semester. Don’t panic if you don’t immediately know the answers to some of these. I expect everyone will need to look things up. Take note of the areas that are rusty and plan to spend a bit of extra time to get up to speed. If some of these items are not even remotely familiar to you, then you probably have not satisfied the pre-requisite material; review the course syllabus and speak to me about any questions.</p>
+<p>The teaching staff (TA and myself) are here to help! Don’t wait too long before asking for help and do let us know right away if you are starting to fall behind. I will also publish the solutions after due date. It is <strong>highly encouraged</strong> that you study the posted solutions.</p>
+</section>
+<section id="r-resources" class="level1">
+<h1>R Resources</h1>
+<section id="a.-update-r-rstudio-and-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="a.-update-r-rstudio-and-quarto">a. Update R, RStudio, and Quarto</h2>
+<ul>
+<li><p>Use the latest version (R 4.3.1, RStudio 2023.06.1, Quarto 1.3.450)</p></li>
+<li><p>Installation help</p>
+<ul>
+<li>R: <a href="https://cran.rstudio.com/" class="uri">https://cran.rstudio.com/</a></li>
+<li>RStudio: <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a></li>
+<li>Quarto: <a href="https://quarto.org/docs/get-started/" class="uri">https://quarto.org/docs/get-started/</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="b.-installupdate-the-following-packages-we-will-meet-during-this-course" class="level2">
+<h2 class="anchored" data-anchor-id="b.-installupdate-the-following-packages-we-will-meet-during-this-course">b. Install/Update the following packages we will meet during this course:</h2>
+<ul>
+<li>Dynamic report generation: <code>knitr</code></li>
+<li>Utility: <code>remotes</code></li>
+<li>Working with Data: <code>tidyverse</code></li>
+<li>Data: <code>ISLR</code>, <code>moderndive</code>, <code>MASS</code></li>
+<li>Resampling: <code>boot</code>, <code>rsample</code></li>
+<li>Modeling: <code>tidymodels</code>, <code>modelr</code>, <code>broom</code></li>
+<li>Regression: <code>glmnet</code>, <code>FNN</code>,</li>
+<li>Classification: <code>e1071</code>,</li>
+<li>Trees: <code>rpart</code>, <code>rpart.plot</code>, <code>randomForest</code>, <code>ranger</code></li>
+<li>Ensembles: <code>gbm</code>, <code>xgboost</code></li>
+<li>Density Estimation: <code>fitdistrplus</code>, <code>ks</code></li>
+<li>Clustering: <code>mclust</code>, <code>mixtools</code></li>
+<li>Association Analysis: <code>arules</code></li>
+<li>Networks: <code>igraph</code></li>
+<li>Forecasting: <code>fpp3</code></li>
+</ul>
+<p>Note: Do not call <code>install.packages()</code> in this Quarto document; it only needs to be done once from the console. However you will need to use <code>library()</code> in Quarto since it needs to be called every time the document is compiled.</p>
+</section>
+<section id="c.-install-the-course-quarto-extension" class="level2">
+<h2 class="anchored" data-anchor-id="c.-install-the-course-quarto-extension">c.&nbsp;Install the course quarto extension</h2>
+<p>This document will not compile until you load the <code>ds6030hw-html</code> quarto extension. To do this, open a terminal window (if using RStudio, look for the terminal tab) and navigate to the same directory where this file is. Then run:</p>
+<pre><code>quarto add mdporter/quarto-ds6030-hw</code></pre>
+<p>which should create an <code>_extensions</code> directory. This contains the formatting for the compiled html document.</p>
+</section>
+</section>
+<section id="tidyverse-resources" class="level1">
+<h1>Tidyverse Resources</h1>
+<p>Read the following sections in <a href="https://r4ds.hadley.nz/">R for Data Science 2e</a>:</p>
+<ul>
+<li>The Whole Game
+<ul>
+<li>Chapters 2-9</li>
+</ul></li>
+<li>Visualize
+<ul>
+<li>Chapters 10-12</li>
+</ul></li>
+<li>Transform
+<ul>
+<li>12-15, 19</li>
+</ul></li>
+<li>Program
+<ul>
+<li>26-27</li>
+</ul></li>
+<li>Communicate
+<ul>
+<li>29</li>
+</ul></li>
+</ul>
+</section>
+<section id="savebookmark-the-following-cheatsheets-and-resources" class="level1">
+<h1>Save/Bookmark the following cheatsheets and resources</h1>
+<p>[Posit Cheatsheets](https://posit.co/resources/cheatsheets/</p>
+<section id="rstudio-and-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="rstudio-and-quarto"><strong>RStudio and Quarto</strong></h2>
+<ul>
+<li><p><a href="https://rstudio.github.io/cheatsheets/html/rstudio-ide.html">RStudio IDE Cheatsheet</a></p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/html/quarto.html">Quarto Cheatsheet</a></p></li>
+<li><p><a href="https://wch.github.io/latexsheet/latexsheet-0.png">Latex Cheatsheet</a></p></li>
+</ul>
+</section>
+<section id="r" class="level2">
+<h2 class="anchored" data-anchor-id="r"><strong>R</strong></h2>
+<ul>
+<li><p><a href="https://rstudio.github.io/cheatsheets/base-r.pdf">Base R</a></p></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/html/data-visualization.html">Data Visualization Cheatsheet</a></p>
+<ul>
+<li><a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code> website</a></li>
+</ul></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/html/tidyr.html">Tidy Data Cheatsheet</a></p>
+<ul>
+<li><a href="https://tidyr.tidyverse.org/"><code>tidyr</code> website</a></li>
+</ul></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/html/data-transformation.html">Data Transform Cheatsheet</a></p>
+<ul>
+<li><a href="https://dplyr.tidyverse.org/"><code>dplyr</code> website</a></li>
+</ul></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/html/factors.html">Factors with forcats Cheatsheet</a></p>
+<ul>
+<li><a href="https://forcats.tidyverse.org/"><code>forcats</code> website</a></li>
+</ul></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/html/data-import.html">Data Import Cheatsheet</a></p>
+<ul>
+<li><a href="https://readr.tidyverse.org/"><code>readr</code> website</a></li>
+</ul></li>
+<li><p><a href="https://rstudio.github.io/cheatsheets/html/purrr.html">Apply Functions Cheatsheet</a></p>
+<ul>
+<li><a href="https://purrr.tidyverse.org/"><code>purrr</code> website</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="python-with-rstudiormarkdown-optional" class="level2">
+<h2 class="anchored" data-anchor-id="python-with-rstudiormarkdown-optional"><strong>Python with RStudio/RMarkdown</strong> (Optional)</h2>
+<ul>
+<li><a href="https://rstudio.github.io/cheatsheets/html/reticulate.html">Python with R and Reticulate Cheatsheet</a></li>
+</ul>
+</section>
+</section>
+<section id="problem-1-math-notation" class="level1">
+<h1>Problem 1: Math Notation</h1>
+<section id="a.-what-are-the-equations-for-the-least-squares-coefficients-in-linear-regression-in-matrix-notation-use-x-for-the-modeldesignpredictor-matrix-and-y-the-vector-of-outcomes." class="level2">
+<h2 class="anchored" data-anchor-id="a.-what-are-the-equations-for-the-least-squares-coefficients-in-linear-regression-in-matrix-notation-use-x-for-the-modeldesignpredictor-matrix-and-y-the-vector-of-outcomes.">a. What are the equations for the least squares coefficients in linear regression (in matrix notation)? Use <span class="math inline">\(X\)</span> for the model/design/predictor matrix, and <span class="math inline">\(Y\)</span> the vector of outcomes.</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+<section id="b.-let-x_1-x_2-ldots-x_n-be-a-sample-of-length-of-time-that-a-customer-is-on-the-phone-with-a-call-center-help-line.-we-feel-comfortable-modeling-the-data-as-coming-from-an-exponential-distribution.-what-is-the-mle-maximum-likelihood-estimate-of-the-parameter-show-your-steps." class="level2">
+<h2 class="anchored" data-anchor-id="b.-let-x_1-x_2-ldots-x_n-be-a-sample-of-length-of-time-that-a-customer-is-on-the-phone-with-a-call-center-help-line.-we-feel-comfortable-modeling-the-data-as-coming-from-an-exponential-distribution.-what-is-the-mle-maximum-likelihood-estimate-of-the-parameter-show-your-steps.">b. Let <span class="math inline">\(x_1, x_2, \ldots, x_n\)</span> be a sample of length of time that a customer is on the phone with a call center help line. We feel comfortable modeling the data as coming from an <em>exponential distribution</em>. What is the MLE (Maximum Likelihood Estimate) of the parameter? Show your steps.</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+</section>
+<section id="problem-2-coding-practice" class="level1">
+<h1>Problem 2: Coding Practice</h1>
+<section id="a.-simulate-100-observations-from-the-following-model" class="level2">
+<h2 class="anchored" data-anchor-id="a.-simulate-100-observations-from-the-following-model">a. Simulate 100 observations from the following model:</h2>
+<ul>
+<li><span class="math inline">\(X \sim N(1, 1)\)</span></li>
+<li><span class="math inline">\(Y \sim N(1 + 2X, 2)\)</span></li>
+<li><span class="math inline">\(Z = \begin{cases} 1 &amp;\quad Y&lt;0 \\ 2 &amp;\quad Y \ge 0 \end{cases}\)</span></li>
+</ul>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+<section id="b.-make-a-scatter-plot-of-the-data.-put-x-on-the-x-axis-and-y-on-the-y-axis.-color-the-points-according-to-z." class="level2">
+<h2 class="anchored" data-anchor-id="b.-make-a-scatter-plot-of-the-data.-put-x-on-the-x-axis-and-y-on-the-y-axis.-color-the-points-according-to-z.">b. Make a scatter plot of the data. Put <span class="math inline">\(X\)</span> on the x-axis and <span class="math inline">\(Y\)</span> on the y-axis. Color the points according to <span class="math inline">\(Z\)</span>.</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+<section id="c.-write-a-function-that-adds-two-numbers-together-and-squares-the-result." class="level2">
+<h2 class="anchored" data-anchor-id="c.-write-a-function-that-adds-two-numbers-together-and-squares-the-result.">c.&nbsp;Write a function that adds two numbers together and squares the result.</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+<section id="d.-write-a-loop-to-calculate-the-mean-of-every-column-in-mtcars." class="level2">
+<h2 class="anchored" data-anchor-id="d.-write-a-loop-to-calculate-the-mean-of-every-column-in-mtcars.">d.&nbsp;Write a loop to calculate the mean of every column in <code>mtcars</code>.</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+</section>
+<section id="problem-3-statistics" class="level1">
+<h1>Problem 3: Statistics</h1>
+<section id="a.-find-two-quantiles-that-capture-95-of-the-following-data" class="level2">
+<h2 class="anchored" data-anchor-id="a.-find-two-quantiles-that-capture-95-of-the-following-data">a. Find two <a href="https://en.wikipedia.org/wiki/Quantile">quantiles</a> that capture 95% of the following data:</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2022</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(<span class="at">n=</span><span class="dv">100</span>, <span class="at">min=</span><span class="dv">2</span>, <span class="at">max=</span><span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+<section id="b.-confidence-interval" class="level2">
+<h2 class="anchored" data-anchor-id="b.-confidence-interval">b. Confidence Interval</h2>
+<p>A new machine learning model, developed by UVA researchers, uses biopsy images to predict if a child has enteropathy or celiac disease. <a href="https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2735765">In a study of 102 patients</a>, the model was able to correctly classify 95 of the images.</p>
+<p>Find the 90% <a href="https://en.wikipedia.org/wiki/Confidence_interval">confidence interval</a> for the probability a patient is correctly classified?</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+<section id="c.-linear-models" class="level2">
+<h2 class="anchored" data-anchor-id="c.-linear-models">c.&nbsp;Linear Models</h2>
+<ul>
+<li>Albemarle County real estate assessment data can be found <a href="https://raw.githubusercontent.com/uvastatlab/phdplus2021/main/data/albemarle_real_estate.csv">at this link</a>.</li>
+</ul>
+<ol type="1">
+<li><p>Fit a linear regression model that predicts the <code>TotalValue</code> using the predictors: <code>Condition</code>, size (<code>FinSqFt</code>), and location (<code>City</code>).</p></li>
+<li><p>What are the estimated coefficients?</p></li>
+<li><p>What is the estimated <code>TotalValue</code> for home with the following characteristics?</p></li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">FinSqFt</th>
+<th style="text-align: left;">City</th>
+<th style="text-align: left;">Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2500</td>
+<td style="text-align: left;">EARLYSVILLE</td>
+<td style="text-align: left;">Good</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1850</td>
+<td style="text-align: left;">CROZET</td>
+<td style="text-align: left;">Fair</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+<section id="d.-hypothesis-testing" class="level2">
+<h2 class="anchored" data-anchor-id="d.-hypothesis-testing">d.&nbsp;Hypothesis Testing</h2>
+<p>Use the <code>movies_sample</code> (IMDb) data from the <code>moderndive</code> R package to performance a hypothesis test that <em>Action</em> movies are ranked lower (on average) than <em>Romance</em> movies.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add solution here</p>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
