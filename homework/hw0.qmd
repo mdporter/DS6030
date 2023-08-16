@@ -54,6 +54,12 @@ The teaching staff (TA and myself) are here to help! Don't wait too long before 
 - Networks: `igraph`
 - Forecasting: `fpp3`
 
+You can see which of your existing packages need updating by running:
+```{r, echo=TRUE, eval=FALSE}
+old.packages() %>% as_tibble()
+```
+Or use the `update.packages()` function to update them. 
+
 Note: Do not call `install.packages()` in this Quarto document; it only needs to be done once from the console. However you will need to use `library()` in Quarto since it needs to be called every time the document is compiled.
 
 ## c. Install the course quarto extension
