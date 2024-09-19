@@ -7,7 +7,7 @@ format: ds6030hw-html
 # Required R packages and Directories {.unnumbered .unlisted}
 
 ```{r packages, message=FALSE, warning=FALSE}
-data.dir = 'https://mdporter.github.io/DS6030/data/' # data directory
+data_dir = 'https://mdporter.github.io/teaching/data/' # data directory
 library(mlbench)
 library(glmnet)
 library(tidymodels)# for optional tidymodels solutions
@@ -79,7 +79,7 @@ Add solution here
 
 # Problem 2 Prediction Contest: Real Estate Pricing
 
-This problem uses the [realestate-train](`r file.path(data.dir, 'realestate-train.csv')`) and [realestate-test](`r file.path(data.dir, 'realestate-test.csv')`) (click on links for data).
+This problem uses the [realestate-train](`r file.path(data_dir, 'realestate-train.csv')`) and [realestate-test](`r file.path(data_dir, 'realestate-test.csv')`) (click on links for data).
 
 The goal of this contest is to predict sale price (in thousands) (`price` column) using an *elastic net* model. Evaluation of the test data will be based on the root mean squared error ${\rm RMSE}= \sqrt{\frac{1}{m}\sum_i (y_i - \hat{y}_i)^2}$ for the $m$ test set observations.
 
