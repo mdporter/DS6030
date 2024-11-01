@@ -127,12 +127,3 @@ Make predictions on the test data and evaluate. Report the point estimate and 95
 Add solution here
 :::
 
-
-## d. Feature Importance
-
-Report the feature/variable importance score from the final lightgbm model. We will cover variable importance next week, so don't worry if you don't fully understand what is going on. 
-
-::: {.callout-note title="Solution"}
-Add solution here
-:::
-
