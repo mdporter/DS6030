@@ -101,7 +101,7 @@ The outcome variables, number of renters, are counts (i.e., non-negative integer
 Add solution here
 :::
 
-## b. LightGBM Tuning: Poisson
+## b. LightGBM Tuning
 
 Tune a lightgbm model on the training data to predict the number of total number of renters (`cnt`). Do *not* use `registered` or `causal` as predictors!
 
@@ -119,9 +119,9 @@ ii. Indicate what method was used for tuning (e.g., type of cross-validation).
 Add solution here
 :::
 
-## c. Evaluation: Poisson
+## c. Evaluation
 
-Make predictions on the test data and evaluate. Report the point estimate and 95% confidence interval. 
+Make predictions on the test data and evaluate. Report the point estimate and 95% confidence interval for the poisson log loss *and* the mean absolute error. 
 
 ::: {.callout-note title="Solution"}
 Add solution here

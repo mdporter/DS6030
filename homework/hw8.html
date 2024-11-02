@@ -3236,8 +3236,8 @@ window.Quarto = {
   <li><a href="#problem-2-predicting-bike-rentals" id="toc-problem-2-predicting-bike-rentals" class="nav-link" data-scroll-target="#problem-2-predicting-bike-rentals">Problem 2: Predicting bike rentals</a>
   <ul class="collapse">
   <li><a href="#a.-poisson-loss" id="toc-a.-poisson-loss" class="nav-link" data-scroll-target="#a.-poisson-loss">a. Poisson loss</a></li>
-  <li><a href="#b.-lightgbm-tuning-poisson" id="toc-b.-lightgbm-tuning-poisson" class="nav-link" data-scroll-target="#b.-lightgbm-tuning-poisson">b. LightGBM Tuning: Poisson</a></li>
-  <li><a href="#c.-evaluation-poisson" id="toc-c.-evaluation-poisson" class="nav-link" data-scroll-target="#c.-evaluation-poisson">c. Evaluation: Poisson</a></li>
+  <li><a href="#b.-lightgbm-tuning" id="toc-b.-lightgbm-tuning" class="nav-link" data-scroll-target="#b.-lightgbm-tuning">b. LightGBM Tuning</a></li>
+  <li><a href="#c.-evaluation" id="toc-c.-evaluation" class="nav-link" data-scroll-target="#c.-evaluation">c. Evaluation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -3421,8 +3421,8 @@ Solution
 </div>
 </div>
 </section>
-<section id="b.-lightgbm-tuning-poisson" class="level2">
-<h2 class="anchored" data-anchor-id="b.-lightgbm-tuning-poisson">b. LightGBM Tuning: Poisson</h2>
+<section id="b.-lightgbm-tuning" class="level2">
+<h2 class="anchored" data-anchor-id="b.-lightgbm-tuning">b. LightGBM Tuning</h2>
 <p>Tune a lightgbm model on the training data to predict the number of total number of renters (<code>cnt</code>). Do <em>not</em> use <code>registered</code> or <code>causal</code> as predictors!</p>
 <ul>
 <li><p>Use the “poisson” objective; this is a good starting place for count data. This sets the loss function to the negative Poisson log-likelihood.</p></li>
@@ -3447,9 +3447,9 @@ Solution
 </div>
 </div>
 </section>
-<section id="c.-evaluation-poisson" class="level2">
-<h2 class="anchored" data-anchor-id="c.-evaluation-poisson">c. Evaluation: Poisson</h2>
-<p>Make predictions on the test data and evaluate. Report the point estimate and 95% confidence interval.</p>
+<section id="c.-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="c.-evaluation">c. Evaluation</h2>
+<p>Make predictions on the test data and evaluate. Report the point estimate and 95% confidence interval for the poisson log loss <em>and</em> the mean absolute error.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled" title="Solution">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
