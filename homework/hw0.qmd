@@ -22,7 +22,7 @@ In order to help with grading, you need to use special formatting to generate th
 
 Download the following files and put them in the top level of where you will keep your homework. 
 
-- [_quarto.yml](https://mdporter.github.io/DS6030/homework/hw-style.css)
+- [_quarto.yml](https://mdporter.github.io/DS6030/homework/_quarto.yml)
 - [hw-style.css](https://mdporter.github.io/DS6030/homework/hw-style.css)
 
 
