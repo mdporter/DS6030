@@ -152,11 +152,9 @@ Read the following sections in [R for Data Science 2e](https://r4ds.hadley.nz/):
 
 I recommend [uv](https://docs.astral.sh/uv/) for python package management. 
 
-- To get you started, modify and add the following `project.toml` file to your class directory:
+- To get you started, add the following `pyproject.toml` file to your top-level class directory (e.g., `DS6030/`):
 
-::: {.callout-tip collapse="true" title = "pyproject.toml"}
-
-```
+```toml {filename="pyproject.toml"}
 [project]
 name = "DS6030"
 version = "0.1.0"
@@ -186,12 +184,10 @@ dependencies = [
   "ipykernel"
 ]
 ```
-:::
 
-- Then run the following to add the python and packages from the project.toml:
+- Then run the following to add the python and packages from the pyproject.toml:
 
 ```
-uv python install
 uv sync
 ```
 
