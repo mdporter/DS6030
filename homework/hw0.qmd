@@ -57,6 +57,7 @@ Update your IDE and (optionally) try a new one! These will all work great for th
     - Installation help R: <https://cran.rstudio.com/>
     
 - Install/Update the following packages we will meet during this course:
+  - Using R and Python: `reticulate`
   - Dynamic report generation: `rmarkdown`, `knitr`, `quarto`
   - Utility: `remotes`
   - Working with Data: `tidyverse`
@@ -72,6 +73,20 @@ Update your IDE and (optionally) try a new one! These will all work great for th
   <!-- - Association Analysis: `arules` -->
   <!-- - Networks: `igraph` -->
   - Forecasting: `fpp3`
+
+To install/update an R package, open an R console and run 
+```{r}
+#| echo: true
+#| eval: false
+# Example set of packages (most important for now)
+install.packages("reticulate")  
+install.packages("rmarkdown")  
+install.packages("knitr")  
+install.packages("quarto")  
+install.packages("tidymodels")  
+install.packages("tidyverse")  
+# ... add any more you want. You can always add more anytime.
+```
 
 You can see which of your existing packages need updating by running:
 ```{r, echo=TRUE, eval=FALSE}
