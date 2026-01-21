@@ -1,0 +1,132 @@
+---
+title: "Homework #1: Supervised Learning"
+---
+
+# Problem 1: Evaluating a Regression Model
+
+## a. Data generating functions
+Create a function to generate data from the following distributions:
+
+$$
+\begin{aligned}
+X &\sim \mathcal{N}(\mu=0, \sigma = 1) \\
+Y &= -1 + .5X + .2X^2 + \epsilon \\
+\epsilon &\sim \mathcal{N}(\mu=0,\, \sigma = 3)
+\end{aligned}
+$$
+The function should have an argument for the sample size and random seed(s). You are free to output the data in any format you like (e.g., data frame, matrix, list/dict). We will use this function a few times in this homework.  
+
+- Note that the standard deviation of epsilon ($\epsilon$) is $\sigma = 3$. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+## b. Generate training data
+
+Simulate $n=100$ realizations from these distributions. Produce a scatterplot and draw the true regression line $f(x) = E[Y \mid X=x]$.
+
+- Use 611 as the random seed prior to generating the data. (You may get different values than your classmates because there are two random elements and the order in which you generate them.)
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+## c. Fit three models
+
+Fit three polynomial regression models using least squares: linear, quadratic, and cubic. Produce another scatterplot, add the fitted lines and true population line $f(x)$  using different colors, and add a legend that maps the line color to a model.
+
+- Note: The true model is quadratic, but we are also fitting linear (less complex) and cubic (more complex) models.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+## d. Predictive performance
+
+Generate a *test data* set of 10,000 observations from the same distributions. Use 612 as the random seed prior to generating the data. 
+
+- Calculate (and show) the estimated mean squared error (MSE) for each model.
+- Which model had better predictions? Are the results expected? Give a brief explanation for what could explain the outcome? 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+
+## e. Optimal performance
+
+What is the best achievable MSE? That is, what is the MSE if the true $f(x)$ was used to evaluate the test set? How close does the best method come to achieving the optimum?
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+## f. Training Sample Size
+
+The prior results were based on a training data set of size $n = 100$. In this section, you will add to the training size and examine the effects. 
+
+- Fit all three models and estimate MSE using a total of $n = \{100, 200, 300, 500, 1000, 5000, 7500\}$ training observations.
+    - You have already done everything for $n=100$.
+    - As $n$ grows be sure to add the new data to the existing data. For example, for $n=200$ you will combine the 100 observations generated in part b with 100 new observations. For $n=300$, combine the 200 observations with an additional 100, etc. 
+    - Be sure to set the random seed so the results are replicable.
+    - Use the same test data from part d. Do not regenerate the test data.
+
+- Summarize your results. What is the best predictive model for each training size? 
+
+- Note: It can be helpful to write a function that takes the training and test data as input and outputs the test MSE. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+## g. Testing Sample Size (Estimating EPE)
+
+In the previous problems you evaluated predictive performance using a large test set with n_test = 10,000. Even with 10,000 test observations, the test MSE you compute is still only an estimate of the model’s true mean squared prediction error. Because the test set is a random sample, the estimated MSE has sampling variability.
+
+In this problem you will study how the test set size affects the uncertainty of the estimated MSE, while holding the trained model fixed.
+
+i. Use the same training data from the previous problem with n_train = 100. If you do not have it saved, regenerate it using the same data generating process and random seed. Fit the three polynomial regression models on this training set. 
+
+ii. Generate a new test data of n_test = 100,000. Set seed for replicability. 
+
+iii. Make predictions on the test data and calculate the MSE for n_test of 50, 100, 1000, 10,000, 50,000, and 100,000. 
+
+iv. Plot the results. Put n_test on the x-axis, MSE on the y-axis, and different colors for the three models. 
+
+v. Summarize the results. What do think is the best predictive model for the given training data? 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+## h. Validation Sample Size (Selecting Best Model)
+
+The last problem evaluated how the hold-out sample size impacts the estimated MSE. For this problem, we will examine how it impacts the selection of the best model. 
+
+i.  Repeat the entire analysis in part g M = 50 times. 
+
+ii. Calculate the number of times each model was selected for n_test of 50, 100, 200, 500, 1000, and 5000. 
+
+iii. Produce a table showing the proportion of times each model would have been selected. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## i. Confidence Intervals and Hypothesis Testing
+
+Yes, this analysis is related to confidence intervals and hypothesis testing. We will come back to these concepts later in the course. 
+
+
+
+
+
+
