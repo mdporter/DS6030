@@ -1,0 +1,28 @@
+[project]
+name = "DS6030"
+version = "0.1.0"
+requires-python = ">=3.14"
+
+dependencies = [
+  # numerical computing
+  "numpy",
+  "scipy",
+
+  # data manipulation
+  "pandas",
+  "polars",
+  "ibis-framework",
+
+  # machine learning
+  "scikit-learn",
+  "statsmodels",
+
+  # plotting and visualization
+  "matplotlib",
+  "seaborn",
+  "plotnine",
+
+  # notebooks and execution
+  "jupyterlab",
+  "ipykernel"
+]
