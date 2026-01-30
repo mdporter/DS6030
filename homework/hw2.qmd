@@ -1,0 +1,317 @@
+---
+title: "Homework #2: Model Selection and Performance Estimation" 
+---
+
+
+# Set-up 
+
+In this homework you will study model tuning, predictive performance, and uncertainty quantification using elastic net regression. All models should be fit using elastic net type regularization, with tuning over the regularization/penalty parameter and, where feasible, the mixing parameter.
+
+## Data
+
+The goal is to predict the year that a song was released based on audio features. Each dataset contains an outcome variable (`Y` song release year) and a set of $p=45$ numeric predictors (`X1` to `X45`) derived from audio features. 
+
+- [training data](https://mdporter.github.io/teaching/data/yrpred-train.csv)
+- [validation data](https://mdporter.github.io/teaching/data/yrpred-validate.csv)
+- [testing data](https://mdporter.github.io/teaching/data/yrpred-test.csv)
+
+
+## Modeling requirements
+
+All predictive models in this homework must be elastic net regression models. You may use any software package you prefer that implements elastic net regression, such as `glmnet` and `tidymodels` in R or `scikit learn` in Python.
+
+Unless otherwise stated, performance should be evaluated using root mean squared error (RMSE).
+
+
+**Elastic net regression**
+
+Elastic net regression is a linear regression model with regularization that combines the ideas of ridge regression and the lasso. The model is fit by minimizing a loss function that balances prediction accuracy with a penalty on the size of the regression coefficients.
+
+Specifically, elastic net minimizes the prediction error plus a weighted combination of an $\ell_1$ penalty (lasso) and an $\ell_2$ penalty (ridge). 
+
+Two tuning parameters control this balance. The `mixture` parameter controls the tradeoff between $\ell_1$ (lasso) and $\ell_2$ (ridge) penalties. The `penalty` parameter controls the strength of the overall penalty. 
+
+::: {.callout-note collapse="true" title="Elastic Net Tuning Parameter Details"}
+
+### Mixing parameter
+The first tuning parameter controls the relative contribution of the $\ell_1$ and $\ell_2$ penalties. When this parameter is set to emphasize the $\ell_1$ penalty, the model behaves like the lasso and tends to produce sparse solutions with many coefficients exactly equal to zero. When it emphasizes the $\ell_2$ penalty, the model behaves like ridge regression and tends to shrink coefficients toward zero without setting them exactly to zero. Intermediate values produce a combination of both behaviors.
+
+The mixing parameter is:
+
+package     | name   | link    |
+------------|--------|---------|
+R `glmnet()` | `alpha` (1 = lasso, 0 = ridge) |  [link](https://glmnet.stanford.edu/articles/glmnet.html) |
+R tidymodels `parsnip::linear_reg()` | `mixture` (1 = lasso, 0 = ridge)  | [link](https://parsnip.tidymodels.org/reference/glmnet-details.html) | 
+scikit learn `ElasticNet` | `l1_ratio` (1 = lasso, 0 = ridge)| [link](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html) | 
+
+
+### Overall regularization/penalty strength
+
+The second tuning parameter controls the overall strength of regularization. Larger values increase shrinkage and reduce model variance at the cost of increased bias, while smaller values reduce shrinkage and move the model closer to ordinary least squares.
+
+package     | name   | link    |
+------------|--------|---------|
+R `glmnet()` | `lambda` |  [link](https://glmnet.stanford.edu/articles/glmnet.html) |
+R tidymodels `parsnip::linear_reg()` | `penalty` | [link](https://parsnip.tidymodels.org/reference/glmnet-details.html) | 
+scikit learn `ElasticNet` | `alpha`| [link](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html) | 
+
+:::
+
+## Computational guidance and fallback options
+
+Some parts of this homework involve repeated or nested cross validation, which can be computationally demanding depending on your hardware. If you encounter computing or memory limitations, you may use one or more of the following simplifications. Clearly state any simplifications you use in your solution.
+
+- Reduce the size of the training and validation data by random subsampling, while keeping the test set fixed.
+- Reduce the cross validation complexity by using fewer folds or fewer repetitions.
+- Fix mixture to 1 (lasso) and tune only penalty.
+
+You should not modify the test dataset or reduce its size unless explicitly instructed.
+
+::: {.callout-note title="Solution"}
+Load data here.
+:::
+
+
+
+
+# Problem 1: Tuning using a single validation set
+
+## a. Tuning
+
+Fit models on the training data and use the validation set to tune mixture and penalty to minimize RMSE. Clearly report the selected values of mixture and penalty, along with the corresponding validation RMSE.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## b. Fit final model 
+
+Refit the model using the combined training and validation data, fixing mixture and penalty at the selected values from part (a).
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## c. Predict on a subset of the test data 
+
+Using the final fitted model, predict outcomes for the first 1000 observations in the test set. Compute and report the test RMSE for this subset.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## d. 90% confidence interval via normal theory
+
+Construct a 90% confidence interval for the RMSE in part (c) using a [normal theory approximation](https://online.stat.psu.edu/stat200/lesson/8/8.2/8.2.2/8.2.2.1). 
+
+Report the CI.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## e. 90% confidence interval via bootstrap
+
+Construct a 90% confidence interval for the RMSE in part (c) using a bootstrap procedure (e.g., <https://openintro-ims.netlify.app/foundations-bootstrapping>. 
+Specify: 
+
+- the bootstrap type (e.g., percentile, bias-corrected, normal, studentized)
+- the number of bootstrap resamples used
+
+Report the CI.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## f. Full test set evaluation
+
+Predict outcomes for the *entire test set* and compute the RMSE. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## g. 90% confidence intervals for the full test set
+
+Using the predictions from part (f), construct 90% confidence intervals for the RMSE using:
+
+- normal theory
+- bootstrap method (use the same bootstrap approach as in part e.)
+
+Report the CI.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## h. Visualization
+
+Create a single graphic that communicates uncertainty in predictive performance. The graphic must show
+
+- the RMSE point estimates
+- the 90% confidence intervals
+
+for both test set sizes (partial test set from part c and full test set from part f) and for both confidence interval methods (normal theory and bootstrap).
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+# Problem 2: Tuning using repeated cross-validation 
+
+## a. Tuning with repeated cross-validation
+
+Combine the training and validation datasets. Using this combined dataset only, tune mixture and penalty via repeated Monte Carlo cross-validation to minimize RMSE. Clearly state:
+
+- the number of hold-out(test) observations
+- the number of repetition
+
+Report the selected mixture and penalty, along with the mean cross-validated RMSE.
+
+Provide a brief justification for the chosen cross-validation configuration (e.g., bias–variance considerations, computational cost, dataset size).
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## b. Estimating RMSE and uncertainty from cross-validation
+
+Using the repeated cross-validation results from part (a), estimate the RMSE and construct a 90% confidence interval *without using the test data*. Clearly describe how the RMSE estimate and confidence interval are obtained from the cross-validation folds. Any approach to estimate the confidence interval is suitable. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## c. Final model fit
+
+Fit the final model on the combined training and validation dataset using the selected mixture and penalty.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## d. Test set evaluation
+
+Using the fitted model, predict outcomes for the entire test set and compute the test RMSE.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## e. Test set confidence interval
+
+Construct a 90% confidence interval for the RMSE using any appropriate method (e.g., normal theory or bootstrap). Provide details on what method was used. 
+
+Report the CI. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## f. Visualization
+
+Create a single graphic that compares uncertainty estimates before and after observing the test data. Show:
+
+- the RMSE estimate and 90% confidence interval from cross-validation
+- the RMSE estimate and 90% confidence interval from the test set
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## g. Reflection
+
+In a short paragraph, describe what you learned from this exercise. Discuss how the cross-validation based RMSE and confidence interval compared to the test set results, what surprised you (if anything), and which approach you would trust most for reporting predictive performance in practice. Briefly explain why.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+# Problem 3: Nested Cross-Validation
+
+## a. Nested cross-validation implementation
+
+Combine the training and validation datasets. Implement nested cross-validation, where the outer cross-validation loop is used to estimate predictive performance
+and the inner cross-validation loop is used to tune mixture and penalty.
+
+Clearly state: 
+
+- the cross-validation approach taken for the outer loop
+- the cross-validation approach taken for the inner loop
+- a brief justification for the chosen cross-validation configuration
+
+Report the selected mixture and penalty and mean RMSE for each (outer) fold. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## b. Estimating RMSE and uncertainty from nested cross-validation
+
+Using the outer-loop cross-validation results from part (a), estimate the RMSE and construct a 90% confidence interval without using the test data. Clearly describe how the RMSE estimate and confidence interval are obtained from the outer-fold results.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## c. Final model fit
+
+Fit a final model on the combined training and validation dataset using tuning parameter values chosen based on the nested cross-validation results.
+
+Clearly describe the approach used to select the final tuning parameters. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## d. Test set evaluation
+
+Using the fitted model, predict outcomes for the entire test set and compute the test RMSE.
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## e. Test set confidence interval
+
+Construct a 90% confidence interval for the RMSE using any appropriate method (e.g., normal theory or bootstrap). Provide details on what method was used. 
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+# Problem 4: Comparison
+
+## a. Comparison
+
+Compare the results across all modeling and evaluation approaches considered in this homework. Clearly report, for each approach:
+
+- the selected tuning parameters
+- the estimated RMSE
+- the associated confidence interval
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+## b. Reflection
+
+In a short paragraph, describe what you learned from this homework. Discuss how the choice of tuning and evaluation strategy affects estimated predictive performance and uncertainty, and state which approach you would recommend in practice. Justify your recommendation.
+
+
+::: {.callout-note title="Solution"}
+Add solution here.
+:::
+
+
+
+
+
+
+
+
+
+
