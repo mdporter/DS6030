@@ -183,23 +183,6 @@ Report the split and gain using Cross-Entropy.
 Add solution here
 :::
 
-## e. Repeat with Sum of Absolute Errors (SAE)
-
-Repeat a. and c. using Sum of Absolute Errors (SAE) to make split. Did they identify different split points?
-
-::: {.callout-note title="Solution"}
-Add solution here
-:::
-
-## f. Repeat with Gini Index
-
-Repeat b. and d. using Gini Index to make split. Did they identify different split points?
-
-::: {.callout-note title="Solution"}
-Add solution here
-:::
-
-
 
 # Problem 3: Random Forest Tuning
 
