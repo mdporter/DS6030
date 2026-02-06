@@ -1,0 +1,211 @@
+---
+title: "Homework #3: Trees and Random Forest" 
+---
+
+# Problem 1: Prediction Contest 
+
+This problem uses the [realestate-train](https://mdporter.github.io/teaching/data/realestate-train.csv) and [realestate-test](https://mdporter.github.io/teaching/data/realestate-test.csv) (click on links for data).
+
+The goal of this contest is to predict sale price (in thousands) (`price` column) using an *Random Forest* model. Evaluation of the test data will be based on the mean squared error for the $m$ test set observations
+$$
+{\text{MSE}} = \frac{1}{m}\sum_{i=1}^m (y_i - \hat{y}_i)^2
+$$
+
+## a. Load and pre-process data
+
+Load the data and create necessary data structures for running *Random Forest*.
+
+- There are some categorical/nominal features. You decide the best way to handle them. Some implementations allow categorical data (R's `ranger`, `randomforest`) while others (scikit-learn) don't.
+- For this problem, you are free to use any data transformations or feature engineering. 
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+## b. Training
+
+Train a *Random Forest* model to predict the `price` of the test data.
+
+- You are free to use any data transformation or feature engineering.
+- You are free to use any tuning parameters.
+- Report the tuning parameters you used to make your final predictions. Be sure to report any default parameters even if you didn't tune them. 
+- Describe how you choose those tuning parameters.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+## c. Submit predictions
+
+Submit a .csv file names `lastname_firstname.csv` (comma separated, no extra spaces) containing your predictions. The file must include one column named `yhat`, with one prediction per row in the same order as the test data. 
+Submissions will be evaluated using an automated grader: 
+
+- Files that do not follow the required format exactly may not be graded and will lose up to 1 point.
+- The top three scores from each section will receive an additional 0.5 bonus points.
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+
+## d. Report anticpated performance
+
+Report the anticipated mean squared error (MSE) of your final model on the test data.
+Provide: a point estimate and a 92% confidence interval for the anticipated MSE.
+
+Your goal is to provide an honest assessment of out-of-sample performance and uncertainty. After grading, you will compare your reported interval to the actual test MSE to assess the calibration of your performance estimates.
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+
+
+# Problem 2: Tree Splitting (from scratch)
+
+Implement a one split prediction tree (a stump) by explicitly computing the gain across all possible split points across a combination of predictor and outcome types. 
+
+
+
+::: {.callout-tip collapse="true"}
+## Data
+
+This problem uses the [tree-data.csv](https://mdporter.github.io/teaching/data/tree-data.csv) (click on link for data).
+
+- Two predictors:
+    - `x_num` (numeric predictor) 
+    - `x_cat` (categorical predictor) 
+
+- Two outcomes:
+    - `y_num` (numeric outcome) 
+    - `y_cat` (categorical outcome)
+
+:::
+
+
+::: {.callout-tip collapse="true"}
+## Loss Functions
+
+### Numeric Outcomes
+Let $\bar{y}$ be the mean and $\tilde{y}$ the median.
+
+
+- Sum of squared errors (SSE)
+$$
+\text{SSE} = \sum_i (y_i - \bar{y})^2
+$$
+- Sum of absolute errors (SAE)
+$$
+\text{SAE} = \sum_i \lvert y_i - \tilde{y} \rvert
+$$
+
+
+
+### Categorical Outcomes
+Let $p_k$ be the proportion of class $k$, and $n$ the number of observations.
+
+- Gini impurity
+$$
+\text{gini} = n \cdot \sum_k p_k (1 − p_k)
+$$
+
+
+- Cross entropy
+$$
+\text{cross-entropy}= - n \cdot \sum_k p_k \log p_k
+$$
+Use the convention $0 \cdot \log 0 = 0$. 
+
+:::
+
+::: {.callout-tip collapse="true"}
+## Gain
+
+For any candidate split producing left and right child nodes,
+
+Loss_after_split = Loss(left) + Loss(right)
+
+Gain = Loss(parent) − Loss_after
+
+:::
+
+
+
+::: {.callout-tip collapse="true"}
+## Candidate Split Points
+
+- Numeric Predictor: Consider all cutpoints between consecutive sorted unique values of the predictor. A cutpoint $c$ defines the split Left: $x \leq c$ versus Right: $x > c$.
+
+- Categorical Predictor: Consider all unique binary partitions of the predictor’s categories into Left and Right groups.
+Splits that differ only by swapping Left and Right are considered the same split and should be evaluated only once.
+
+- Minimum node size: A candidate split is valid only if both child nodes contain at least 20 (`min_obs`) observations.
+
+:::
+
+For each problem, find the optimal split. Report the split and gain. 
+
+- You are *not* expected to build a full recursive tree. You do not need to optimize for speed.
+
+- You may use R or Python, but do not use any tree or forest libraries to perform the splitting. 
+
+
+## a. Numeric Predictor (`x_num`), Numeric Outcome (`y_num`)
+
+Report the split and gain using Sum of Squared Errors (SSE).
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Numeric Predictor (`x_num`), Categorical Outcome (`y_cat`)
+
+Report the split and gain using Cross-Entropy.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. Categorical Predictor (`x_cat`), Numeric Outcome (`y_num`) 
+
+Report the split and gain using Sum of Squared Errors (SSE).
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## d. Categorical Predictor (`x_cat`), Categorical Outcome (`y_cat`)
+
+Report the split and gain using Cross-Entropy.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## e. Repeat with Sum of Absolute Errors (SAE)
+
+Repeat a. and c. using Sum of Absolute Errors (SAE) to make split. Did they identify different split points?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## f. Repeat with Gini Index
+
+Repeat b. and d. using Gini Index to make split. Did they identify different split points?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+
+# Problem 3: Random Forest Tuning
+
+The goal of this problem is to compare different strategies for tuning Random Forests and estimating prediction error. You will tune tree complexity and feature subsampling, and evaluate how out-of-bag (OOB) error and cross-validation (CV) behave in practice.
+
+**This problem is not assigned.**
+
+
+
