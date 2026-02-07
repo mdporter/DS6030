@@ -1,0 +1,149 @@
+---
+title: "Homework #4: Probability and Classification" 
+---
+
+
+# Crime Linkage
+
+Crime linkage attempts to determine if a set of unsolved crimes share a common offender. *Pairwise* crime linkage is the more simple task of deciding if two crimes share a common offender; it can be considered a binary classification problem. The linkage training data has 8 evidence variables that measure the similarity between a pair of crimes:
+
+- `spatial` is the spatial distance between the crimes
+- `temporal` is the fractional time (in days) between the crimes
+- `tod` and `dow` are the differences in time of day and day of week between the crimes
+- `LOC`, `POA,` and `MOA` are binary with a 1 corresponding to a match (type of property, point of entry, method of entry)
+- `TIMERANGE` is the time between the earliest and latest possible times the crime could have occurred (because the victim was away from the house during the crime).
+- The outcome variable indicates if the crimes are linked ($y=1$) or unlinked ($y=0$).
+
+
+These problems use the [linkage-train](https://mdporter.github.io/teaching/data/linkage_train.csv) and [linkage-test](https://mdporter.github.io/teaching/data/linkage_test.csv) datasets (click on links for data). 
+
+
+## Load Crime Linkage Data
+
+::: {.callout-note title="Solution"}
+Load data here
+:::
+
+# Problem 1: Penalized Regression for Crime Linkage
+
+## a. Fit a penalized *linear* regression model to predict linkage. 
+
+Use an elastic net penalty (including lasso and ridge) (your choice). 
+
+- Report the selected tuning parameters.
+- Report the estimated coefficients.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+## b. Fit a penalized *logistic* regression model to predict linkage. 
+
+Use an elastic net penalty (including lasso and ridge) (your choice). 
+
+- Report the selected tuning parameters.
+- Report the estimated coefficients.
+
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+# Problem 2: Random Forest for Crime Linkage
+
+Fit a random forest model to predict crime linkage. 
+
+- Report the loss function (or splitting rule) used. 
+- Report any non-default tuning parameters.
+- Report variable importance (indicate which importance method was used). 
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+# Problem 3: ROC Curves
+
+
+## a. ROC curve: training data
+
+Using the training data, produce a single plot showing the ROC curves for all three models: linear, logistic, and random forest. Distinguish models using color and/or line type, and include a legend.
+
+For each model, report the AUC computed from the **training** data.
+
+Note: evaluating predictive performance on the same data used to estimate model parameters and tune hyperparameters is generally optimistic. This part is for illustration only. In the next problem, you will use resampling to obtain a more appropriate estimate of out of sample predictive performance.
+
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+## b. ROC curve: resampling estimate
+
+Recreate ROC curves for the penalized logistic regression (logreg) and random forest (rf) models using repeated hold out validation. Follow the steps below.
+
+- **Model setup**
+    - For logreg, fix the mixture = 0.75 (close to the lasso). You will tune the penalty parameter. 
+    - For rf, fix mtry = 2 and num.trees = 1000. Fix any remaining tuning parameters at values of your choice. You won't tune anything for random forest.
+
+- **Resampling procedure**: Repeat the following steps 25 times:
+    1. Randomly hold out 500 observations.
+    2. Fit each model using the remaining observations.
+        - For penalized logistic regression, select the regularization/penalty strength using 10 fold cross validation within the training set.
+        - Do not tune any random forest parameters.
+    3. Predict the probability of linkage for the 500 hold out observations.
+    4. Store the predicted probabilities and the true hold out labels.
+    5. Compute the AUC for the hold out set.
+
+- **Reporting and visualization**
+    - Report the mean AUC and standard error across the 25 repetitions for each model. 
+    - Compare these results to the training data AUCs from part a.
+    - Produce two plots, one for logreg and one for rf, each showing the 25 ROC curves from the resampling procedure.
+
+- Note: because penalty term is selected each repetition, this procedure incorporates uncertainty from tuning the penalization parameter, in addition to uncertainty from the train test split.
+
+
+::: {.callout-note title="Solution"} 
+Add solution here
+:::
+
+
+# Problem 4: Contest
+
+For these problems:
+
+- You are free to any model (even ones we haven't yet covered in the course).
+- You are free to use any data transformation or feature engineering.
+- You will receive credit for a proper submission; the top three scores from each section will receive an additional 0.5 bonus points. However, you cannot receive double credit if you are in leaderboard for both contests. 
+- We will use automated evaluation of the predictions, so the format specified in the problem must be exact. Take at look at your .csv file before uploading.
+
+
+## a. Contest Part 1: Predict the estimated *probability* of linkage. 
+
+Predict the estimated *probability* of linkage for the test data (using any model). 
+
+- Submit a .csv file (ensure comma separated format) named `lastname_firstname_1.csv` that includes the column named **p** that is your estimated posterior probability. We will use automated evaluation, so the format must be exact. 
+- Your probabilities will be evaluated with respect to the mean negative Bernoulli log-likelihood (known as the average *log-loss* metric):
+$$ 
+L = - \frac{1}{M} \sum_{i=1}^m [y_i \log \, \hat{p}_i + (1 - y_i) \log \, (1 - \hat{p}_i)]
+$$
+where $M$ is the number of test observations, $\hat{p}_i$ is the prediction for the $i$th test observation, and $y_i \in \{0,1\}$ are the true test set labels. 
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+## b. Contest Part 2: Predict the *linkage label*. 
+
+Predict the linkages for the test data (using any model). 
+
+- Submit a .csv file (ensure comma separated format) named `lastname_firstname_2.csv` that includes the column named **linkage** that takes the value of 1 for linked pairs and 0 for unlinked pairs. We will use automated evaluation, so the format must be exact. 
+- Your labels will be evaluated based on total cost, where cost is equal to `1*FP + 8*FN`. This implies that False Negatives (FN) are 8 times as costly as False Positives (FP).    
+ 
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
