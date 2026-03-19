@@ -1,0 +1,185 @@
+---
+title: "Homework #6: Diagnosing Prediction Failures" 
+---
+
+# Background
+
+A basketball analytics team has built models to predict whether a shot will be made. You are given predicted probabilities from several models evaluated on test data. Your job is to diagnose what's going wrong (if anything) using two complementary analyzes:
+
+- **Residual analysis** - examine residuals as a function of features $X$. This reveals *where in feature space* the model fails.
+- **Calibration analysis** - examine residuals as a function of $\hat{p}(x)$. This reveals *at what prediction levels* the model fails.
+
+Use Pearson residuals for any place that asks for residuals:  
+
+$$r_i = \frac{y_i - \hat{p}(x_i)}{\sqrt{\hat{p}(x_i)(1-\hat{p}(x_i))}}$$
+If $\hat{p}(x) = p(x)$ then $E[r_i]=0$ and $V[r_i]=1$.
+
+
+## Data
+
+The features ($x$) are:
+
+- `shot_distance`: distance from the basket (feet)
+- `defender_distance`: distance to the nearest defender (feet)
+- `shooter_skill`: a continuous measure of the shooter's ability (0–1 scale)
+- `shot_clock`: seconds remaining on the shot clock
+- `is_home`: whether the shooting team is the home team (0/1)
+
+The outcome ($y$) is:
+
+- `made`: (1 = shot made, 0 = missed).
+
+
+You are provided four files:
+
+- `train.csv`: Training data $(x_i, y_i)$.
+- `test1.csv`: Test data from the same population, with columns $(x_i, y_i, \hat{p}_{\text{good}}, \hat{p}_{\text{overfit}}, \hat{p}_{\text{underfit}})$.
+- `test2.csv`: Test data from a different population (e.g., during the playoffs), with columns $(x_i, y_i, \hat{p}_{\text{good}})$.
+- `eval2.csv`: Evaluation data $(x_i, \hat{p}_{\text{good}})$ with no labels.
+
+::: {.callout-note title="Solution"}
+Load Data Here
+:::
+
+
+# Problem 1: Good Model
+
+Use the predictions $\hat{p}_{\text{good}}$ on `test1.csv`.
+
+## a. Residual Analysis
+Plot the Pearson residuals against each feature. Use a smoother to visually assess whether the mean residual deviates from zero.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Calibration
+Produce a calibration plot: plot the observed proportion of $Y=1$ against the predicted probabilities using binning or smoothing. Include the 45-degree reference line.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. What do you observe? Do the diagnostics suggest any problems?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+# Problem 2: Overfit Model
+
+Use the predictions $\hat{p}_{\text{overfit}}$ on `test1.csv`.
+
+## a. Residual Analysis
+Plot the Pearson residuals against each feature. Use a smoother to visually assess whether the mean residual deviates from zero.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Calibration
+Produce a calibration plot: plot the observed proportion of $Y=1$ against the predicted probabilities using binning or smoothing. Include the 45-degree reference line.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. Diagnosis 
+Compare these plots to Problem 1. Describe the nature of the problem. Is the issue better characterized as bias conditional on $X$ or bias conditional on $\hat{p}$? What would you recommend?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+# Problem 3: Underfit Model
+
+Use the predictions $\hat{p}_{\text{underfit}}$ on `test1.csv`.
+
+## a. Residual Analysis
+Plot the Pearson residuals against each feature. Use a smoother to visually assess whether the mean residual deviates from zero.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Calibration
+Produce a calibration plot: plot the observed proportion of $Y=1$ against the predicted probabilities using binning or smoothing. Include the 45-degree reference line.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. Diagnosis 
+Compare to Problems 1 and 2. How is this failure mode different from the overfit case? What would you recommend?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+# Problem 4: New Test Data
+
+The good model from Problem 1 is now applied to new test data. Use the predictions $\hat{p}_{\text{good}}$ on `test2.csv`.
+
+## a. Residual Analysis
+Plot the Pearson residuals against each feature. Use a smoother to visually assess whether the mean residual deviates from zero.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Calibration
+Produce a calibration plot: plot the observed proportion of $Y=1$ against the predicted probabilities using binning or smoothing. Include the 45-degree reference line.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. Compare Distribution
+Compare the distribution of features in `test2.csv` to the training data. Does anything stand out?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## d. Diagnosis
+Is the model wrong, or has something else changed? How does this scenario differ from Problems 2 and 3?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+# Problem 5: Fix It Contest
+
+You are given `eval2.csv`, which contains new observations from the same population as `test2.csv`, but without labels.
+
+Using any combination of the training data (`train.csv`), labeled test data (`test1.csv`, `test2.csv`), and your diagnostics, produce the best predicted probabilities you can. You can recalibrate, refit, stack, and/or use any other approach. 
+
+## a. Describe Approach
+Briefly describe your strategy and justify it based on your earlier analysis.
+
+::: {.callout-note title="Solution"}
+Add solutions here
+:::
+
+## b. Make Predictions
+
+Predict the estimated *probability* of making a shot. Probability predictions will be evaluated with respect to the mean negative Bernoulli log-likelihood (known as the average *log-loss* metric).
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. Submit Predictions
+
+Submit your predictions as a .csv file (ensure comma separated format) named `lastname_firstname.csv` that includes the column named **p_hat** that is your estimated probability. We will use automated evaluation, so the format must be exact. 
+
+::: {.callout-note title="Solution"}
+Make predictions here.
+:::
+
+
+
