@@ -1,0 +1,118 @@
+---
+title: "Homework #7: Prediction Intervals and Base Rate Correction"
+---
+
+
+# Problem 1: Unbalanced Data 
+
+A researcher is trying to build a predictive model for distinguishing between real and AI generated images. She collected a random sample ($n=10,000$) of tweets/posts that included images. Expert analysts were hired to label the images as real or AI generated. They determined that 1000 were AI generated and 9000 were real. 
+
+She tasked her grad student with building a binary risk model (e.g., logistic regression, boosted trees) to predict the probability that a new image is AI generated. After reading on the internet, the grad student became concerned that the data was *unbalanced* and fit the model using a weighted log-loss 
+$$
+-\sum_{i=1}^n w_i \left[ y_i \log \hat{p}(x_i) + (1-y_i) \log (1-\hat{p}(x_i)) \right]
+$$
+where $y_i = 1$ if AI generated ($y_i=0$ if real) and $w_i = 1$ if $y_i = 1$ (AI) and $w_i = 1/9$ if $y_i = 0$ (real). This makes $\sum_i w_iy_i = \sum_i w_i(1-y_i) = 1000$. That is the total weight of the AI images equals the total weight of the real images. Note: A similar alternative is to downsample the real images; that is, build a model with 1000 AI and a random sample of 1000 real images. The grad student fits the model using the weights and is able to make predictions $\hat{p}(x)$. 
+
+While the grad student is busy implementing this model, the researcher grabbed another 1000 random tweets/posts with images and had the experts again label them real or AI. Excitedly, the grad student makes predictions on the test data. However, the model doesn't seem to be working well on these new test images. While the AUC appears good, the log-loss and brier scores are really bad.
+
+Hint: By using the weights (or undersampling), the grad student is modifying the base rate (prior class probability).
+
+## a. What is going on? 
+
+How can the AUC be strong while the log-loss and brier scores aren't? 
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. What is the remedy?
+
+Specifically, how should the grad student mathematically adjust the predictions for the new test images? Use equations and show your work. Hints: the model is outputting $\hat{p}(x) = \widehat{\Pr}(Y=1|X=x)$.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+## c. Base rate correction 
+
+If the grad student's weighted model predicts an image is AI generated with $\hat{p}(x) = .80$, what is the updated prediction under the assumption that the true proportion of AI is 1/10. 
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## d. Implement the correction 
+
+The grad student's weighted model predictions on the test data are available at `hw7_test.csv` (with columns `label` and `p_hat`). Apply your correction from part (b) assuming the true proportion of AI images is 1/10. 
+
+i. Compute the corrected predictions.
+ii. Calculate the AUC, log-loss, and Brier score before and after correction. 
+iii. Comment on the results.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## e. Conclusions
+
+Was the grad student right to be concerned about class imbalance? Why or why not? 
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+# Problem 2: More housing prices
+
+This problem uses the [realestate-train](https://mdporter.github.io/teaching/data/realestate-train.csv) and [realestate-test](https://mdporter.github.io/teaching/data/realestate-test.csv) (click on links for data) from [Homework 3](mdporter.github.io/DS6030/homework/hw3.html)
+
+The goal of this contest is to predict sale price (in thousands) (`price` column), along with an 80% prediction interval for each house in the test set.
+
+## a. Load the data
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Median regression 
+
+Fit a quantile regression model for the conditional median of sale price.
+
+Use your fitted model to generate a predicted median sale price for every observation in the test set.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. Prediction Intervals 
+
+Fit the necessary quantile regression models to construct an 80% prediction interval for the sale price. 
+Generate the 80% prediction intervals for each observation in the test set.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+## d. Submission
+
+- Submit a .csv file names `lastname_firstname.csv` (comma separated, no extra spaces) containing your predictions. 
+
+- The file must include three columns named `median`, `lower`, and `upper`, with one prediction per row in the same order as the test data. 
+
+- Submissions will be evaluated using an automated grader. Files that do not follow the required format exactly may not be graded and will lose up to 1 point.
+
+- Your predictions will be evaluated using two criteria:
+  - mean absolute error (MAE) of the predicted median
+  - empirical coverage of the prediction intervals
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+
+
+
+
