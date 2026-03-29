@@ -2432,6 +2432,36 @@ DS 6030 | Spring 2026 | University of Virginia
 <p>You work for your home state’s highway safety office. Budget season is approaching and your director needs a forecast of monthly fatal crashes for the next year to plan resource allocation like emergency response staffing, public safety campaigns, and infrastructure improvements. She wants to know: how many crashes should we expect each month, and how confident should we be in those numbers?</p>
 <p><strong>Data:</strong> The file <code>FARS-monthly.csv</code> (in Canvas/Assignments/HW 8) contains monthly fatal crash counts for every U.S. state from 2012–2023, compiled from the <a href="https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars">Fatality Analysis Reporting System (FARS)</a>.</p>
 <p><strong>Your state:</strong> Use the state where you were born or first lived in the U.S.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled" title="Coding Help">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Coding Help
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This homework introduces new libraries and data structures that you haven’t worked with before. The <code>fpp3</code> ecosystem (R) and Nixtla ecosystem (python) tools have their own conventions for time series objects, model fitting, and forecasting. The learning curve can be steep on a first encounter.</p>
+<p>It’s OK if you get stuck on code, especially for this assignment. Focus on the concepts: decomposing a series, comparing models against baselines, evaluating forecast uncertainty. If a particular function isn’t cooperating, describe what you’re trying to do and show what you attempted. A clear explanation of your approach with partial code is worth more than a polished notebook that skips the hard parts.</p>
+<p>As a reminder, homework is graded on a coarse 5-point scale that emphasizes engagement with the learning process rather than correctness or polish. A serious attempt that gets stuck on implementation details will score well.</p>
+<p>Some resources that may help:</p>
+<ul>
+<li>R: <a href="https://otexts.com/fpp3/">Forecasting: Principles and Practice</a>
+<ul>
+<li>uses the <code>fpp3</code> package ecosystem (<code>tsibble</code>, <code>fable</code>, <code>feasts</code>)</li>
+</ul></li>
+<li>Python: <a href="https://otexts.com/fpppy/">Forecasting: Principles and Practice, the Pythonic Way</a>
+<ul>
+<li>uses <code>statsforecast</code> and related libraries from Nixtla</li>
+<li>AI tools (Claude, ChatGPT, Copilot) are allowed and encouraged for help with syntax and debugging</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 <section id="problem-1-explore-and-decompose" class="level1">
 <h1>Problem 1: Explore and Decompose</h1>

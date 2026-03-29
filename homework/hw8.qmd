@@ -10,6 +10,24 @@ You work for your home state's highway safety office. Budget season is approachi
 
 **Your state:** Use the state where you were born or first lived in the U.S. 
 
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+This homework introduces new libraries and data structures that you haven't worked with before. The `fpp3` ecosystem (R) and Nixtla ecosystem (python) tools have their own conventions for time series objects, model fitting, and forecasting. The learning curve can be steep on a first encounter.
+
+It's OK if you get stuck on code, especially for this assignment. Focus on the concepts: decomposing a series, comparing models against baselines, evaluating forecast uncertainty. If a particular function isn't cooperating, describe what you're trying to do and show what you attempted. A clear explanation of your approach with partial code is worth more than a polished notebook that skips the hard parts.
+
+As a reminder, homework is graded on a coarse 5-point scale that emphasizes engagement with the learning process rather than correctness or polish. A serious attempt that gets stuck on implementation details will score well. 
+
+Some resources that may help:
+
+- R: [Forecasting: Principles and Practice](https://otexts.com/fpp3/) 
+  - uses the `fpp3` package ecosystem (`tsibble`, `fable`, `feasts`)
+- Python: [Forecasting: Principles and Practice, the Pythonic Way](https://otexts.com/fpppy/) 
+  - uses `statsforecast` and related libraries from Nixtla
+  - AI tools (Claude, ChatGPT, Copilot) are allowed and encouraged for help with syntax and debugging
+
+:::
+
 
 # Problem 1: Explore and Decompose
 
