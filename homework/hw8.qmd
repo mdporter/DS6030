@@ -1,0 +1,164 @@
+---
+title: "Homework #8: Forecasting Fatal Crashes"
+---
+
+# Overview 
+
+You work for your home state's highway safety office. Budget season is approaching and your director needs a forecast of monthly fatal crashes for the next year to plan resource allocation like emergency response staffing, public safety campaigns, and infrastructure improvements. She wants to know: how many crashes should we expect each month, and how confident should we be in those numbers?
+
+**Data:** The file `FARS-monthly.csv` (in Canvas/Assignments/HW 8) contains monthly fatal crash counts for every U.S. state from 2012–2023, compiled from the [Fatality Analysis Reporting System (FARS)](https://www.nhtsa.gov/research-data/fatality-analysis-reporting-system-fars). 
+
+**Your state:** Use the state where you were born or first lived in the U.S. 
+
+
+# Problem 1: Explore and Decompose
+
+## a. Load and plot 
+
+Load the FARS data, filter to *your state*, and create a time series plot of monthly fatal crashes.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Daily Average Crash Rate
+
+Because months have different numbers of days, model average daily fatal crashes rather than raw monthly counts. Define
+
+$$
+\texttt{daily\_avg} = \frac{\texttt{fatal\_crashes}}{\texttt{days\_in\_month}}.
+$$
+
+Create and use `daily_avg` as the outcome variable for the remaining problems.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. Decomposition
+
+Apply an STL decomposition to your state's series. Describe what you see:
+
+i. Is there a trend? If so, what direction and are there any notable changes?
+ii. Is there a seasonal pattern? Which months tend to have the most and fewest crashes?
+iii. Does the remainder look like noise, or is there leftover structure?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## d. COVID effect
+
+Does your state show a notable change around 2020–2021? Many states saw an increase in fatal crashes despite reduced driving during COVID. Describe what you observe in your state's data. Does this appear as a shock (temporary) or a changepoint (persistent shift)?
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+# Problem 2: Baselines
+
+In this problem, use data through December 2021 for model building and model selection. Do not use the 2022–2023 data until Problem 4.
+
+## a. Fit baseline models
+
+Fit the following baseline models to the data through December 2021:
+
+i. Naive: $\hat{y}_{t+h} = y_t$
+ii. Seasonal naive: $\hat{y}_{t+h} = y_{t+h-12}$
+iii. Mean: $\hat{y}_{t+h} = \frac{1}{t}\sum_{s=1}^t y_s$
+
+Then produce forecasts for January 2022 through December 2023.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Plot and compare baseline forecasts
+
+i. Plot the forecasts for all three baseline models.
+ii. Based on the plots, which baseline seems most reasonable for your state? Briefly explain.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+# Problem 3: Modeling and Model Selection
+
+Our planning target is 12 months ahead, so use $h = 12$ step-ahead forecasting as the main basis for model comparison.
+
+## a. One model beyond the baselines
+
+Fit at least one forecasting model that goes beyond the baselines. Choose one of the following:
+
+i. **ETS** (exponential smoothing with automatic component selection)
+ii. **ARIMA** (automatic specification)
+iii. **Regression with temporal features**, such as a linear trend and month indicators
+
+If you choose the regression option, keep the model simple. A good default is a linear trend plus month indicators. More complicated lag-based (autoregressive) models are optional but not required.
+
+For each model you fit, state the model clearly and give a short explanation of why it seems reasonable for your state's data.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Rolling origin model selection
+
+Compare your model from part (a) to the **seasonal naive** baseline using rolling origin cross-validation with forecast horizon $h = 12$. For each fold, evaluate the 12-month-ahead forecast. Do not aggregate performance equally across all horizons 1 through 12. You may use either a growing or sliding window.
+
+i. Briefly justify your choice of growing versus sliding window.
+ii. Report one or more performance measures at horizon $h = 12$, such as MAE, RMSE, or MASE.
+iii. Based on this rolling origin analysis, which model would you choose for 12-month-ahead planning?
+
+Note: this step is for model comparison and selection. Do not use the 2022–2023 data yet.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+
+# Problem 4: Forecasting 2022–2023 and Recommendation
+
+Pretend it is December 2021.
+
+Using the model you selected in Problem 3b, refit it on all data through December 2021. Then use it to forecast January 2022 through December 2023.
+
+## a. Forecast plot with prediction intervals
+
+Produce forecasts of average daily fatal crashes for 2022–2023 with 95% prediction intervals. Plot the forecasts and intervals, but **do not show the actual 2022–2023 values on this plot.**
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## b. Recommendation memo
+
+Write a short recommendation (3–5 sentences) to your director. Address the following:
+
+i. About how many fatal crashes per month should the office plan for during 2022–2023?
+ii. Is there a seasonal pattern that should affect when resources are deployed?
+iii. How far ahead can the office reasonably trust the forecasts?
+
+Write this as if you are advising the director at the end of 2021, before the actual 2022–2023 outcomes are known.
+
+Note: your model is fit to average daily fatal crashes. If you want to express your recommendations in monthly counts, you may convert back using
+$$
+\widehat{\texttt{fatal\_crashes}} = \widehat{\texttt{daily\_avg}} \times \texttt{days\_in\_month}.
+$$
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
+
+## c. Final evaluation
+
+Now compare your forecasts from part (a) to the actual 2022–2023 values.
+
+i. Plot the forecasts together with the observed values for 2022–2023.
+ii. Report one or two error measures for the held-out period.
+iii. Did the model perform about as well as you expected based on the rolling origin results at $h = 12$? Briefly explain.
+
+::: {.callout-note title="Solution"}
+Add solution here
+:::
