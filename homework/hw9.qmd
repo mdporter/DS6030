@@ -1,0 +1,117 @@
+---
+title: "Homework #9: Recommender Systems"
+---
+
+# Overview
+
+**Data.**
+Use the MovieLens Small dataset found in Canvas/Files/data. You'll use three files: `movies.csv` (movieId, title, genres), `tags.csv` (userId, movieId, tag), and `ratings.csv` (userId, movieId, rating, timestamp).
+
+
+::: {.callout-note title="Solution"}
+
+Load Data Here
+
+:::
+
+
+# Problem 1: Content-Based Filtering
+
+## a. Item Profiles
+
+Build item profiles by combining each movie's genre(s) (from `movies.csv`) with its user-supplied tags (from `tags.csv`). Treat each movie's combined genre and tag text as a document and compute TF-IDF vectors. 
+
+The result should be the item profile matrix which is an $n_\text{movies} \times n_\text{terms}$ matrix where each row represents a movie and each entry is its TF-IDF weight for that term.
+
+Note that the two files are in different formats. `movies` has a pipe-separated genres string and `tags` has one row per tag. You'll need to bring them into a common representation before combining. Here are some suggested steps, but feel free to get to the TF-IDF any way you can. 
+
+i. Genre tokens. From `movies.csv`, convert the pipe-separated genres string into individual genre tokens, one per movie. Each genre should appear exactly once per movie.
+
+ii. Tag tokens. From `tags.csv`, lowercase all tags and deduplicate so that each tag appears at most once per movie, regardless of how many users applied it. This treats tags symmetrically with genres; a tag either describes a movie or it doesn't, we don't consider the number of users who tagged it. 
+
+iii. Combine. Merge the genre and tag tokens into a single per-movie document.
+
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+R: Represent each file as a long-format data frame with columns movieId and token. Use `bind_rows()` to combine them, then `count(movieId, token)` to get term frequencies. 
+
+Python: Represent each file as a string per movie. For genres, replace | with spaces. For tags, group by `movieId` and join deduplicated tags into a space-separated string. Then concatenate the genre and tag strings per movie.
+
+For example for `movieId = 1` (Toy Story), the text should be: Adventure Animation Children Comedy Fantasy fun pixar.  
+
+:::
+
+iv. TF-IDF. Compute TF-IDF weights across all movies.
+
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+R: Use `bind_tf_idf()` from `tidytext`, then `cast_dtm()` to produce a movies × terms matrix.[TF-IDF example using `tidytext` (R)](https://cran.r-project.org/web/packages/tidytext/vignettes/tf_idf.html)
+
+Python: Use `TfidfVectorizer()` from sklearn applied to the combined strings.
+
+:::
+
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+
+## b. Item Similarity
+
+Using the item profile matrix from part a, compute the cosine similarity between every pair of movies. The result is an $n_\text{movies} \times n_\text{movies}$
+matrix where entry $(i,j)$ reflects how similar movies $i$ and $j$ are based on their genre and tag profiles.
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+## c. Qualitative Evaluation
+
+Pick any movie you like and report its 5 most similar movies under your item profiles. Do the results make intuitive sense? Briefly explain.
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+
+# Problem 2: Collaborative Filtering
+
+
+## a. Test data
+
+Hold out all ratings for users 1, 2, and 3 as your *test set*. We will train on the remaining users' ratings. At evaluation time, use the test users' ratings as input to your models.
+
+**Within-user profile/evaluation split.**
+For each *test user*, randomly split their ratings 80/20. Use the 80% as a profile to build recommendations; treat the held-out 20% as ground truth for evaluation.
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+
+## b. Collaborative Filtering Method
+
+Using the training ratings, build a collaborative filter. You may use user-user CF, item-item CF, or matrix factorization.
+
+Briefly describe your method and any key choices (e.g., number of neighbors, number of latent factors, similarity metric).
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+## c. Evaluation
+
+For each test user, predict ratings for their held-out 20% movies using their 80% profile as input. Report MAE per user and overall.
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
+
+## d. Generate Recommendations
+
+Generate a top-10 recommendation list for each test user and report recall\@10.
+
+::: {.callout-note title="Solution"}
+Add Solution here
+:::
