@@ -1,0 +1,290 @@
+---
+title: "Homework #10: Survival Analysis"
+---
+
+# Overview
+
+**Setting.** You are analyzing pediatric heart transplant data from a large multi-center registry. This is derived from the same cohort analyzed in Wisotzkey et al. (2023), *Risk factors for 1-year allograft loss in pediatric heart transplant patients using machine learning* ([linked here](https://onlinelibrary.wiley.com/doi/10.1111/petr.14612)). Reading the paper is not required, but interested students can use it for context and comparison.
+
+**Decision context.** The clinical team supports two decisions:
+
+- **Decision 1 (1 yr survival).** A donor heart offer arrives for a candidate on the waitlist. Given the patient's features, what is the probability of 1-year *graft-loss-free survival* if the transplant goes forward? This supports the accept/reject call on the offer.
+- **Decision 2 (survival distribution).** After transplant, the team wants one of two longer-range views of outcome:
+  - (2a) the patient's full *survival trajectory* across multiple years, or
+  - (2b) the *hazard shape* across follow-up time. This can answer when in the post-transplant course is risk highest?
+
+You will answer Decision 1 with an IPCW-weighted classifier, and *either* Decision 2a with a survival forest *or* Decision 2b with a discrete-time hazard model. Your choice.
+
+**Event definition.** The event is the combined endpoint of *graft loss or death*. Patients with neither at last follow-up are censored. This definition follows the Wisotzkey paper and sidesteps competing risks for this assignment.
+
+**Data.** Use `tx_survival.csv` found in Canvas/Files/data. The columns are:
+
+- `obs_time`: observed follow-up time in years (graft loss, death, or last contact)
+- `event`: 1 = graft loss or death, 0 = censored
+- `split`: "train" or "test" (use this for your single train/test split)
+- `id`: anonymized patient identifier
+- 14 features: `etiology`, `single_ventricle`, `mcsd`, `ecmo`, `prior_surgeries`, `medical_hist`, `albumin_under_3`, `bun_under_15`, `eGFR_under_60`, `weight_under_75`, `bmi_under_18`, `alt_under_30`, `alt_over_50`, `txyr_under_2015`
+
+::: {.callout-note title="Load Data"}
+Load data here
+:::
+
+
+# Problem 1: Descriptive Survival
+
+## a. Overall Kaplan-Meier
+
+Using the training data, produce a Kaplan-Meier curve of graft-loss-free survival for the full cohort. 
+
+- Show the plot. 
+- Report the estimated survival probability at 1 year and at 5 years.
+
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+R: `survfit(Surv(obs_time, event) ~ 1, data = train)` and `tidy()` from `broom`.
+
+Python: `sksurv.nonparametric.kaplan_meier_estimator()` after converting `(event, obs_time)` to a structured array with `Surv.from_arrays()`.
+
+:::
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
+## b. Stratified KM
+
+Produce a KM curve stratified by `etiology`. Comment briefly on the differences across groups.
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
+## c. Censoring
+
+Report the overall censoring rate (% of training patients with `event = 0`). Then estimate and plot $\hat G(t)$, the censoring survival function, on the training data. You will use $\hat G$ in Problem 2.
+
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
+# Problem 2: 1-year Graft-Loss-Free Survival (IPCW Classifier)
+
+## a. Compute IPCW weights
+
+Using the training data and $\hat G$ from Problem 1c, compute IPCW weights for each patient at horizon $\tau = 1$ year:
+
+$$
+\tilde{w}_i(\tau) = \begin{cases}
+0 & \text{if } \tilde T_i < \tau \text{ and } \delta_i = 0 \\
+\dfrac{1}{\hat{G}(\min(\tilde T_i, \tau))} & \text{otherwise}
+\end{cases}
+$$
+
+Also create the binary label `y` for 1-year event status: `y = 1` if the patient experienced the event within 1 year (known failure), `y = 0` if observed past 1 year (known survival), and missing (e.g., `NA`, `np.nan`, `pd.NA`) if censored before 1 year (unknown 1 year survival).
+
+Also report, for each $y$:
+
+- the number of patients 
+- the total IPCW weight among the retained patients
+- the maximum weight
+
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+R: There is no built in predict() function for kaplan-meier. But you can build a step function from the censoring KM with `stepfun(km_cens$time, c(1, km_cens$surv))`, then evaluate at `pmin(obs_time, 1)`.
+
+Python: Use `numpy.searchsorted()` on the sorted censoring times from the KM, or use scikit-survival's `CensoringDistributionEstimator`.
+
+:::
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
+## b. Fit an IPCW-weighted classifier
+
+Fit a binary classifier for 1-year event status using the IPCW weights. Drop patients with `y` missing (equivalently, their weight is 0). Any weighted binary probability model is fine (e.g., logistic regression).
+
+Briefly describe your model choice and any key decisions (e.g., features included, how you handled categorical features).
+
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
+## c. Evaluate on the test set
+
+Compute IPCW weights for test patients using the same $\hat G$ you estimated from the training data. Then evaluate your model on the test set:
+
+i. IPCW-weighted Brier score at 1 year
+ii. IPCW-weighted C-index (or AUC) for 1-year failure risk
+iii. A calibration plot (predicted 1-year survival vs. observed 1-year survival, weighted by IPCW)
+
+Comment on what the metrics and the calibration plot tell you about model quality.
+
+::: {.callout-tip collapse="true" title="Evaluation Metrics"}
+
+- **Brier score** (at 1 year): the weighted mean squared error between the predicted 1-year survival probability and the observed binary outcome ($1 - y$). Lower is better. A null model that predicts the marginal survival rate for everyone gives a Brier score equal to $p(1-p)$ where $p$ is the event rate. For a 7.6% event rate, the null Brier is about 0.070. A perfect model scores 0.
+
+- **C-index** (concordance index): among all pairs of patients where one had the event within 1 year and the other did not, the fraction of pairs where the model assigned a *higher predicted risk* to the patient who actually had the event. Equivalently, it is the area under the ROC (AUC) curve for the 1-year binary outcome. 0.5 = random ranking, 1.0 = perfect discrimination.
+
+- Both metrics are computed using **IPCW weights** on the test set using only known observations (known event or alive at 1 year). This follows the same logic as training. Without the weights, the metrics would be biased because patients censored before 1 year are excluded but not accounted for.
+
+:::
+
+
+
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+The test set also contains censored patients whose 1-year status is unknown. Drop them (or equivalently use weight 0) for metric computation, and use IPCW weights on the remaining test patients just like you did for training.
+
+R: For C-index, `survival::concordance(y ~ pred_risk, data = test_data, weights = ipcw)`.
+
+Python: `sksurv.metrics.concordance_index_ipcw()` from scikit-survival.
+
+:::
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+# Problem 3:  Full-Curve Analysis
+
+Choose *one* of Problem 3a (survival forest) or Problem 3b (discrete-time hazard). You do not need to do both.
+
+## a. Option A: Survival Forest
+
+### i. Fit
+
+Fit a survival forest on the training data. Remember that tree complexity (e.g., minimum node size) can be an important tuning parameter with survival forests. 
+
+
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+R: `ranger(Surv(obs_time, event) ~ ., data = train, num.trees = 500, min.node.size = 30, seed = 1)`.
+
+Python: `sksurv.ensemble.RandomSurvivalForest(n_estimators=500, min_samples_leaf=30, n_jobs=-1, random_state=1)`.
+
+:::
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+### ii. Patient-specific survival curves
+
+Consider the following four patients in the test set `4189`, `4308`, `4522`, `4790`.
+Predict and plot their full survival curves on a single figure.
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+### iii. Evaluation
+
+Make predictions on all the test set. Calculate the Brier score and C-index/AUC from predictions at 1, 3, and 5 years. 
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
+## b. Option B: Discrete-Time Hazard
+
+### i. Reshape
+
+Reshape the training data to person-period format with yearly intervals. Each row corresponds to one (patient, interval) pair with a binary `failed` indicator for whether the patient had the event in that interval. Censored patients contribute rows up through their censoring interval, all with `failed = 0`.
+
+Report the original number of rows and the reshaped number of rows, along with the total event count (should match the training data).
+
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+R: `uncount()` from `tidyr`, with `n_intervals = ceiling(obs_time)`, then compute `j = row_number()` within each patient and `y = as.integer(j == ceiling(obs_time) & event == 1)`.
+
+Python: For each patient, loop over intervals 1 to `min(ceiling(obs_time), 10)`; create a row with `y = 1` only in the last interval if event = 1. `pandas.DataFrame.explode()` can help.
+
+:::
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
+### ii. Fit
+
+Fit a discrete-time hazard model with using `j` as a predictor variable. Logistic regression is the natural choice; any binary classifier that returns probabilities works.
+
+::: {.callout-tip collapse="true" title="Coding Help"}
+
+R: `glm(y ~ factor(j) + ., data = long_train, family = binomial)`.
+
+Python: `sklearn.linear_model.LogisticRegression()` with one-hot encoded interval indicator, or `statsmodels.formula.api.logit()` with a categorical term for `j`.
+
+:::
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+### iii. Patient-specific hazard predictions
+
+Plot the estimated hazard $\hat h_j$ for a sample of test patients (`id = 4189, 4308, 4522, 4790`) as a function of interval $j$. 
+
+
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
+
+### iv. Patient-specific survival curves
+
+For the same 4 test patients, compute $\hat S(t)$ across intervals using $\hat S(t) = \prod_{j=1}^{t}(1 - \hat h_j)$. Plot the curves on a single figure.
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+### v. Evaluate
+
+Read off each example patient's predicted 1-year survival probability. Do these agree roughly with what the Problem 2 classifier predicted for the same patients?
+
+::: {.callout-note title="Solution"}
+
+Add solution here
+
+:::
+
+
